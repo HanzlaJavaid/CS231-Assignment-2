@@ -135,6 +135,67 @@ class Graph{
         void SetTarget(int a, int b , int c, int d, int e ,int f, int g , int h ,  int i){
             TargetState.SetState(a,b,c,d,e,f,g,h,i);
         }
+	void SetTarget(int a, int b , int c, int d, int e ,int f, int g , int h ,  int i){
+            TargetState.SetState(a,b,c,d,e,f,g,h,i);
+        }
+        void AddEdge(int source , int target){
+            for(int i = 0 ; i < I.size() ; i++){
+                if(I[i].id == source){
+                    I[i].edges.push_back(target);
+                }
+            }
+        }
+        bool IsAlreadyVisited(State input){
+            bool IsVisited = false;
+            for(int i = 0 ; i < Visited.size(); i++){
+                if(IsTarget(input,Visited.at(i))){
+                    IsVisited = true;
+                    return IsVisited;
+                }
+            }
+            return IsVisited;
+        }
+        bool IsTarget(State a , State b){
+            bool IsTarget = true;
+            for(int i = 0 ; i< 3; i++){
+                for(int j = 0 ; j < 3 ;j++){
+                    if(a.S[i][j]!=b.S[i][j]){
+                        IsTarget = false;
+                    }
+                }
+            }
+            return IsTarget;
+        }
+	void AddVertex(int a, int b , int c, int d, int e ,int f, int g , int h ,  int i){
+            Vertex newvertex;
+            State newState;
+            newState.SetState(a,b,c,d,e,f,g,h,i);
+            newvertex.arr.push_back(newState);
+            newvertex.id = I.size();
+            I.push_back(newvertex);
+        }
+        Vertex AddVertex(State input){
+            Vertex newvertex;
+            State newState = input;
+            newvertex.arr.push_back(newState);
+            newvertex.id = I.size();
+            I.push_back(newvertex);
+            return newvertex;
+        }
+        void print(){
+            for(int i = 0 ; i < I.size();i++){
+                I[i].arr.at(0).show() ;
+                cout << "is connected with " << endl ;
+                for(int j = 0 ; j < I[i].edges.size();j++){
+                I[I[i].edges.at(j)].arr.at(0).show(); 
+                }
+                cout << endl ;
+                cout << "--------------";
+                cout << endl;
+            }
+        }
+        
+};
 int main(){
 	
 }
