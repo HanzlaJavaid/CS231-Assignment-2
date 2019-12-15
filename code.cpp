@@ -1,6 +1,7 @@
 ///Hanzla Javaid 2018271 
 ///Assignment#2
 #include<iostream>
+#include<vector>
 using namespace std;
 class State{
     public:
@@ -135,9 +136,6 @@ class Graph{
         void SetTarget(int a, int b , int c, int d, int e ,int f, int g , int h ,  int i){
             TargetState.SetState(a,b,c,d,e,f,g,h,i);
         }
-	void SetTarget(int a, int b , int c, int d, int e ,int f, int g , int h ,  int i){
-            TargetState.SetState(a,b,c,d,e,f,g,h,i);
-        }
         void AddEdge(int source , int target){
             for(int i = 0 ; i < I.size() ; i++){
                 if(I[i].id == source){
@@ -166,7 +164,37 @@ class Graph{
             }
             return IsTarget;
         }
-	void AddVertex(int a, int b , int c, int d, int e ,int f, int g , int h ,  int i){
+        void FindPath(Vertex currentState ){
+            int count = 0;
+            while(!IsTarget(currentState.arr.at(0),TargetState)){
+                count++;
+                State TempState[4];
+                TempState[0] = moveleft(currentState.arr.at(0));
+                TempState[1] = moveright(currentState.arr.at(0));
+                TempState[2] = moveup(currentState.arr.at(0));
+                TempState[3] = movedown(currentState.arr.at(0));
+                for(int i = 0 ; i < 4 ; i++){
+                    if(IsTarget(TempState[i],TargetState)){
+                        Visited.push_back(TempState[i]);
+                        Vertex newvertex = AddVertex(TempState[i]);
+                        AddEdge(currentState.id,newvertex.id);
+                        return;
+                    }
+                }
+                for(int i = 0 ; i < 4 ; i ++){
+                    bool IsVisited = false;
+                    IsVisited = IsAlreadyVisited(TempState[i]);
+                    if(IsVisited == false){
+                        Visited.push_back(TempState[i]);
+                        Vertex newvertex = AddVertex(TempState[i]);
+                        AddEdge(currentState.id,newvertex.id);
+                    }
+                }
+                currentState = I[count];
+            }
+
+        }      
+        void AddVertex(int a, int b , int c, int d, int e ,int f, int g , int h ,  int i){
             Vertex newvertex;
             State newState;
             newState.SetState(a,b,c,d,e,f,g,h,i);
@@ -195,7 +223,19 @@ class Graph{
             }
         }
         
+
 };
 int main(){
-	
+State Y,Z;
+Graph X(1,2,3,
+        4,8,-1,
+        7,6,5
+        );
+X.SetTarget(1,2,3,
+            4,5,6,
+            7,8,-1
+        );
+Y.SetState(3,1,2,4,-1,5,6,7,8);
+X.FindPath(X.I[0]);
+X.print();
 }
